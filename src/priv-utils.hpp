@@ -17,17 +17,18 @@
  */
 
 
-#ifndef GTKSFML_UTILS_HPP
-#define GTKSFML_UTILS_HPP
+#ifndef GTKSFML_PRIV_UTILS_HPP
+#define GTKSFML_PRIV_UTILS_HPP
 
 
 #include <SFML/Window/Event.hpp>
 #include <gdk/gdk.h>
 
 
-namespace gtksfml::utils {
+namespace gtksfml::priv::utils {
 
-    sf::Event::KeyEvent gtk_to_sfml(GdkEventKey* gkey);
+    sf::Event::KeyEvent
+    translate(GdkEventKey* gkey);
 
 }
 

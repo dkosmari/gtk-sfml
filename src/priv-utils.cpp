@@ -16,19 +16,14 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 
-#include "utils.hpp"
-
-
-using std::clog;
-using std::endl;
+#include "priv-utils.hpp"
 
 
-namespace gtksfml::utils {
+namespace gtksfml::priv::utils {
 
 
-#define TR1(x, y)                            \
+#define TR1(x, y)                               \
     case GDK_KEY_ ## x:                         \
     case GDK_KEY_ ## y:                         \
         return Key::x
@@ -225,7 +220,6 @@ namespace gtksfml::utils {
                 return Key::Pause;
 
             default:
-                clog << "ERROR: not handled: " << gdk_keyval_name(val) << endl;
                 return Key::Unknown;
         }
     }
@@ -239,18 +233,16 @@ namespace gtksfml::utils {
 
 
     sf::Event::KeyEvent
-    gtk_to_sfml(GdkEventKey* gkey)
+    translate(GdkEventKey* gkey)
     {
         sf::Event::KeyEvent result;
 
-        // TODO: use gdk_keymap_add_virtual_modifiers()?
         auto state = gkey->state;
         result.alt = state & GDK_META_MASK;
         result.control = state & GDK_CONTROL_MASK;
         result.shift = state & GDK_SHIFT_MASK;
         result.system = state & GDK_SUPER_MASK;
 
-        //clog << "::: hardware keycode: " << gkey->hardware_keycode << endl;
         result.code = translate(gkey->keyval);
 
         return result;

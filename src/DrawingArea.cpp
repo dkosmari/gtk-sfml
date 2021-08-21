@@ -30,10 +30,15 @@
 #endif
 
 
-#include "utils.hpp"
+#include "priv-utils.hpp"
+
 
 
 namespace gtksfml {
+
+
+    using priv::utils::translate;
+
 
     DrawingArea::DrawingArea(bool auto_update)
     {
@@ -130,7 +135,7 @@ namespace gtksfml {
     {
         sf::Event event;
         event.type = sf::Event::EventType::KeyPressed;
-        event.key = utils::gtk_to_sfml(gek);
+        event.key = translate(gek);
         on_event(event);
 
         return Gtk::DrawingArea::on_key_press_event(gek);
@@ -142,7 +147,7 @@ namespace gtksfml {
     {
         sf::Event event;
         event.type = sf::Event::EventType::KeyReleased;
-        event.key = utils::gtk_to_sfml(gek);
+        event.key = translate(gek);
         on_event(event);
 
         return Gtk::DrawingArea::on_key_release_event(gek);
