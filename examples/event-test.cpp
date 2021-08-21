@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <string>
 
@@ -8,6 +9,9 @@
 #include "DrawingArea.hpp"
 
 
+#include "examples-utils.hpp"
+
+
 using std::cout;
 using std::endl;
 using std::string;
@@ -15,43 +19,6 @@ using std::string;
 using Glib::ustring;
 
 
-#define CASE(x) \
-    case sf::Event::EventType::x: \
-    return #x
-
-string
-to_string(const sf::Event& e)
-{
-    switch (e.type) {
-        CASE(Closed);
-        CASE(Resized);
-        CASE(LostFocus);
-        CASE(GainedFocus);
-        CASE(TextEntered);
-        CASE(KeyPressed);
-        CASE(KeyReleased);
-        CASE(MouseWheelMoved);
-        CASE(MouseWheelScrolled);
-        CASE(MouseButtonPressed);
-        CASE(MouseButtonReleased);
-        CASE(MouseMoved);
-        CASE(MouseEntered);
-        CASE(MouseLeft);
-        CASE(JoystickButtonPressed);
-        CASE(JoystickButtonReleased);
-        CASE(JoystickMoved);
-        CASE(JoystickConnected);
-        CASE(JoystickDisconnected);
-        CASE(TouchBegan);
-        CASE(TouchMoved);
-        CASE(TouchEnded);
-        CASE(SensorChanged);
-        default:
-            return "unknown event type";
-    }
-}
-
-#undef CASE
 
 
 #define TEST(x) \
@@ -98,8 +65,9 @@ struct MyWidget : gtksfml::DrawingArea {
     sf::Font font;
 
     sf::Text fps_text;
-    sf::Text update_time_text;
+    sf::Text time_text;
     unsigned frame_counter = 0;
+    bool has_event = false;
 
 
     MyWidget()
@@ -108,8 +76,8 @@ struct MyWidget : gtksfml::DrawingArea {
 
         font.loadFromFile(SRCDIR "/LiberationSans-Regular.ttf");
 
-        update_time_text.setFont(font);
-        update_time_text.setPosition(40, 20);
+        time_text.setFont(font);
+        time_text.setPosition(40, 20);
 
         fps_text.setFont(font);
         fps_text.setString("FPS: n/a");
@@ -136,43 +104,52 @@ struct MyWidget : gtksfml::DrawingArea {
             clear({0, 16, 64});
         else
             clear({0, 0, 64});
-        draw(update_time_text);
+        draw(time_text);
         draw(fps_text);
         display();
         ++frame_counter;
     }
 
 
+    // called before on_render()
     void on_update(gint64 us)
     {
-        string msg = ustring::format("update time: ", us/1000000.);
-        update_time_text.setString(msg);
+        // this will dispatch events to on_event()
+        gtksfml::DrawingArea::on_update(us);
 
-        sf::Event event;
-        bool has_event = false;
-        while (pollEvent(event)) {
+        string msg = ustring::format("time: ",
+                                     std::fixed,
+                                     std::setprecision(2),
+                                     us/1000000.);
+        time_text.setString(msg);
+
+        if (has_event) {
+            has_event = false;
+            cout << endl;
+        }
+    }
+
+
+    // Override this instead of calling pollEvent(), because some
+    // events are translated from GTK+, and SFML never gets to see
+    // them.
+    void on_event(const sf::Event& event) override
+    {
+        if (event.type == sf::Event::EventType::KeyPressed ||
+            event.type == sf::Event::EventType::KeyReleased) {
+
             if (has_event)
                 cout << " ";
             has_event = true;
-            cout << to_string(event);
-
-            // grab focus on click
-            if (event.type == sf::Event::EventType::MouseButtonPressed)
-                grab_focus();
-
+            cout << event;
         }
-        if (has_event)
-            cout << endl;
+
+        // grab focus on click
+        if (event.type == sf::Event::EventType::MouseButtonPressed)
+                grab_focus();
     }
 
 
-    bool on_key_press_event(GdkEventKey* event) override
-    {
-        // Key press events are always handled by GTK+, not by SFML.
-        cout << "on_key_press_event(): "
-             << event->keyval << endl;
-        return Parent::on_key_press_event(event);
-    }
 
 
     /*

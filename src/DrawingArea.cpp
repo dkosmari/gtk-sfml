@@ -30,6 +30,9 @@
 #endif
 
 
+#include "utils.hpp"
+
+
 namespace gtksfml {
 
     DrawingArea::DrawingArea(bool auto_update)
@@ -110,6 +113,41 @@ namespace gtksfml {
 
     void
     DrawingArea::on_update(gint64)
+    {
+        sf::Event event;
+        while (pollEvent(event))
+               on_event(event);
+    }
+
+
+    void
+    DrawingArea::on_event(const sf::Event&)
     {}
+
+
+    bool
+    DrawingArea::on_key_press_event(GdkEventKey* gek)
+    {
+        sf::Event event;
+        event.type = sf::Event::EventType::KeyPressed;
+        event.key = utils::gtk_to_sfml(gek);
+        on_event(event);
+
+        return Gtk::DrawingArea::on_key_press_event(gek);
+    }
+
+
+    bool
+    DrawingArea::on_key_release_event(GdkEventKey* gek)
+    {
+        sf::Event event;
+        event.type = sf::Event::EventType::KeyReleased;
+        event.key = utils::gtk_to_sfml(gek);
+        on_event(event);
+
+        return Gtk::DrawingArea::on_key_release_event(gek);
+    }
+
+
 
 }

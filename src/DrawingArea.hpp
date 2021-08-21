@@ -30,6 +30,9 @@ namespace gtksfml {
         bool auto_update_state = false;
         guint tick_id;
 
+        // hide this method, should override on_event() instead
+        using sf::RenderWindow::pollEvent;
+
     protected:
 
         void on_realize() override;
@@ -42,6 +45,13 @@ namespace gtksfml {
         virtual void on_update(gint64 us);
 
         virtual void on_render() = 0;
+
+        // default implementation just ignores all events
+        virtual void on_event(const sf::Event& event);
+
+        // translate GTK+ key events into SFML key events
+        bool on_key_press_event(GdkEventKey* event) override;
+        bool on_key_release_event(GdkEventKey* event) override;
 
     public:
 

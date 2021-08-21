@@ -1,7 +1,7 @@
 # src/Makefile.am
 
 
-AM_CXXFLAGS = -Wall -Werror
+AM_CXXFLAGS = -Wall -Wextra -Werror
 
 
 AM_CPPFLAGS = \
@@ -17,7 +17,8 @@ libgtk_sfml_HEADERS = DrawingArea.hpp
 
 
 libgtk_sfml_la_SOURCES = \
-	DrawingArea.cpp
+	DrawingArea.cpp \
+	utils.cpp utils.hpp
 
 
 libgtk_sfml_la_LIBADD = \
