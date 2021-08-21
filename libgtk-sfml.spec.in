@@ -1,0 +1,80 @@
+%define libname %mklibname gtk-sfml
+%define devname %mklibname gtk-sfml -d
+
+Name:           @PACKAGE_NAME@
+Version:        @PACKAGE_VERSION@
+Release:        %mkrel 1
+Summary:        A GTK+ widget for embedding SFML windows.
+Group:          System/Libraries
+
+License:        GPLv3+
+Source0:        @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+
+%description
+This is the library needed to run programs linked to %{name}.
+
+BuildRequires:      automake
+BuildRequires:      libtool
+BuildRequires:      pkgconfig(sfml-graphics)
+BuildRequires:      pkgconfig(gtkmm-3.0)
+BuildRequires:      gcc-c++
+
+
+
+#############
+## library ##
+#############
+
+%package -n     %{libname}
+Summary:        A GTK+ widget for embedding SFML windows.
+Group:          System/Libraries
+
+%description -n %{libname}
+This is the library needed to run programs linked with %{libname}.
+
+
+###########
+## devel ##
+###########
+
+%package -n     %{devname}
+Summary:        Development package for %{libname}.
+Group:          Development/C++
+Provides:       %{devname} = %{version}
+Requires:       %{libname} = %{version}-%{release}
+
+%description -n %{devname}
+This package provides libraries and headers files for %{name}
+development.
+
+
+
+%prep
+%autosetup
+
+
+%build
+%configure --disable-static
+%make_build
+
+
+%install
+%make_install
+
+%{?ldconfig_scriptlets}
+
+
+%files -n %{libname}
+%license COPYING
+%doc AUTHORS
+%{_libdir}/*.so.*
+
+
+%files -n %{devname}
+%doc README
+%doc ChangeLog
+%doc NEWS
+%{_includedir}/gtk-sfml/*.hpp
+%{_libdir}/*.so
+%{_libdir}/pkgconfig/libgtk-sfml.pc
+%{_libdir}/*.la
