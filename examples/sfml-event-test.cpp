@@ -4,7 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "examples-utils.hpp"
+#include "utils.hpp"
 
 
 using std::cout;
@@ -45,16 +45,13 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
 
-            if (event.type == sf::Event::EventType::KeyPressed ||
-                event.type == sf::Event::EventType::KeyReleased) {
 
-
-                if (has_event)
-                    cout << " ";
-                cout << event;
-                has_event = true;
-            }
+            if (has_event)
+                cout << " ";
+            cout << event;
+            has_event = true;
         }
+
         if (has_event)
             cout << endl;
         has_event = false;
@@ -79,9 +76,9 @@ int main()
 
 
         if (window.hasFocus())
-            window.clear({0, 16, 64});
+            window.clear({0, 16, 96});
         else
-            window.clear({0, 0, 64});
+            window.clear({32, 32, 64});
         window.draw(time_text);
         window.draw(fps_text);
         window.display();

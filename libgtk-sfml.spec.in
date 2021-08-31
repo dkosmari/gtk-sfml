@@ -4,8 +4,8 @@
 Name:           @PACKAGE_NAME@
 Version:        @PACKAGE_VERSION@
 Release:        %mkrel 1
-Summary:        A GTK+ widget for embedding SFML windows.
-Group:          System/Libraries
+#Summary:        A set of widgets for integrating SFML into gtkmm3.
+#Group:          System/Libraries
 
 License:        GPLv3+
 Source0:        @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
@@ -26,7 +26,7 @@ BuildRequires:      gcc-c++
 #############
 
 %package -n     %{libname}
-Summary:        A GTK+ widget for embedding SFML windows.
+Summary:        A set of widgets for integrating SFML into gtkmm3.
 Group:          System/Libraries
 
 %description -n %{libname}

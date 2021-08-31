@@ -19,8 +19,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <gdkmm/frameclock.h>
 
-#include "DrawingArea.hpp"
-
+#include "Window.hpp"
 
 #include "priv-utils.hpp"
 
@@ -29,16 +28,19 @@
 
 namespace gtksfml {
 
-
     using priv::utils::translate;
     using priv::utils::get_handle;
 
 
-    DrawingArea::DrawingArea()
+    Window::Window(Gtk::WindowType type) :
+        Gtk::Window{type}
     {
+        set_app_paintable(true);
+        set_double_buffered(false);
         set_auto_update(true);
     }
 
 
-    IMPL_ALL(DrawingArea)
+    IMPL_ALL(Window)
+
 }

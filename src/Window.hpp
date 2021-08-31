@@ -16,18 +16,19 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef GTKSFML_DRAWING_AREA_HPP
-#define GTKSFML_DRAWING_AREA_HPP
+
+#ifndef GTKSFML_WINDOW_HPP
+#define GTKSFML_WINDOW_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <gtkmm/builder.h>
-#include <gtkmm/drawingarea.h>
+#include <gtkmm/window.h>
 
 
 namespace gtksfml {
 
-    class DrawingArea : public Gtk::DrawingArea,
-                        public sf::RenderWindow {
+    class Window : public Gtk::Window,
+                   public sf::RenderWindow {
 
         bool auto_update_state = false;
         guint tick_id;
@@ -53,8 +54,8 @@ namespace gtksfml {
 
     public:
 
-        DrawingArea();
-        DrawingArea(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder);
+        Window(Gtk::WindowType type = Gtk::WindowType::WINDOW_TOPLEVEL);
+        Window(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder);
 
         // enable to call on_update() and on_render() periodically.
         void set_auto_update(bool enable);
@@ -62,9 +63,10 @@ namespace gtksfml {
 
 
         using sf::RenderWindow::draw;
+        using Gtk::Window::close;
     };
 
-}
 
+}
 
 #endif

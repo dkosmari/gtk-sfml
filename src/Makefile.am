@@ -18,7 +18,9 @@ libgtk_sfml_HEADERS = DrawingArea.hpp
 
 libgtk_sfml_la_SOURCES = \
 	DrawingArea.cpp \
-	priv-utils.cpp priv-utils.hpp
+	priv-methods.hpp \
+	priv-utils.cpp priv-utils.hpp \
+	Window.cpp Window.hpp
 
 
 libgtk_sfml_la_LIBADD = \

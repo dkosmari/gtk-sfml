@@ -9,7 +9,7 @@
 #include "DrawingArea.hpp"
 
 
-#include "examples-utils.hpp"
+#include "utils.hpp"
 
 
 using std::cout;
@@ -18,44 +18,6 @@ using std::string;
 
 using Glib::ustring;
 
-
-
-
-#define TEST(x) \
-    if (m & Gdk::EventMask::x) cout << "  " << #x << "\n"
-
-void
-print_event_mask(Gdk::EventMask m)
-{
-    cout << "Gdk::EventMask: {\n";
-    TEST(EXPOSURE_MASK);
-    TEST(POINTER_MOTION_MASK);
-    TEST(POINTER_MOTION_HINT_MASK);
-    TEST(BUTTON_MOTION_MASK);
-    TEST(BUTTON1_MOTION_MASK);
-    TEST(BUTTON2_MOTION_MASK);
-    TEST(BUTTON3_MOTION_MASK);
-    TEST(BUTTON_PRESS_MASK);
-    TEST(BUTTON_RELEASE_MASK);
-    TEST(KEY_PRESS_MASK);
-    TEST(KEY_RELEASE_MASK);
-    TEST(ENTER_NOTIFY_MASK);
-    TEST(LEAVE_NOTIFY_MASK);
-    TEST(FOCUS_CHANGE_MASK);
-    TEST(STRUCTURE_MASK);
-    TEST(PROPERTY_CHANGE_MASK);
-    TEST(VISIBILITY_NOTIFY_MASK);
-    TEST(PROXIMITY_IN_MASK);
-    TEST(PROXIMITY_OUT_MASK);
-    TEST(SUBSTRUCTURE_MASK);
-    TEST(SCROLL_MASK);
-    TEST(TOUCH_MASK);
-    TEST(SMOOTH_SCROLL_MASK);
-    TEST(TOUCHPAD_GESTURE_MASK);
-    TEST(TABLET_PAD_MASK);
-    cout << "}\n";
-    cout.flush();
-}
 
 
 struct MyWidget : gtksfml::DrawingArea {
@@ -101,9 +63,9 @@ struct MyWidget : gtksfml::DrawingArea {
     void on_render() override
     {
         if (has_focus())
-            clear({0, 16, 64});
+            clear({0, 16, 96});
         else
-            clear({0, 0, 64});
+            clear({32, 32, 64});
         draw(time_text);
         draw(fps_text);
         display();
@@ -114,9 +76,6 @@ struct MyWidget : gtksfml::DrawingArea {
     // called before on_render()
     void on_update(gint64 us)
     {
-        // this will dispatch events to on_event()
-        gtksfml::DrawingArea::on_update(us);
-
         string msg = ustring::format("time: ",
                                      std::fixed,
                                      std::setprecision(2),
@@ -130,31 +89,28 @@ struct MyWidget : gtksfml::DrawingArea {
     }
 
 
-    // Override this instead of calling pollEvent(), because some
-    // events are translated from GTK+, and SFML never gets to see
-    // them.
+    /*
+     * Override this instead of calling pollEvent(), because some
+     * events are handled by GTK+, and SFML never gets to see
+     * them directly. But gtk-sfml translates them into SFML
+     * for this method.
+     */
     void on_event(const sf::Event& event) override
     {
-        if (event.type == sf::Event::EventType::KeyPressed ||
-            event.type == sf::Event::EventType::KeyReleased) {
-
-            if (has_event)
-                cout << " ";
-            has_event = true;
-            cout << event;
-        }
+        if (has_event)
+            cout << " ";
+        has_event = true;
+        cout << event;
 
         // grab focus on click
         if (event.type == sf::Event::EventType::MouseButtonPressed)
-                grab_focus();
+            grab_focus();
     }
-
-
 
 
     /*
      * Because there are multiple widgets, prevent the widget from
-     * losing focus from GUI navigation.  Focus can still be lost by
+     * losing focus from GUI navigation. Focus can still be lost by
      * mouse clicks or shortcuts.
      */
     bool on_focus(Gtk::DirectionType dir) override
@@ -179,35 +135,10 @@ struct MyWidget : gtksfml::DrawingArea {
 
 
 
-/*
- * GTK+ handles the gained/lost focus events, on the toplevel window.
- * So this must be used instead of sf::Event::LostFocus and
- * sf::Event::GainedFocus.
- */
-
-struct MyWindow : public Gtk::ApplicationWindow {
-
-    bool on_focus_in_event(GdkEventFocus* event) override
-    {
-        cout << "MyWindow::on_focus_in_event()" << endl;
-        return Gtk::ApplicationWindow::on_focus_in_event(event);
-    }
-
-
-    bool on_focus_out_event(GdkEventFocus* event) override
-    {
-        cout << "MyWindow::on_focus_out_event()" << endl;
-        return Gtk::ApplicationWindow::on_focus_out_event(event);
-    }
-
-};
-
-
-
 int main()
 {
     auto app = Gtk::Application::create();
-    MyWindow window;
+    Gtk::Window window;
     window.set_default_size(640, 480);
     window.set_border_width(18);
 

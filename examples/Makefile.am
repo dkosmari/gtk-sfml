@@ -22,20 +22,26 @@ LDADD = \
 
 noinst_PROGRAMS = \
 	hello-world \
-	event-test \
-	sfml-event-test
+	gtk-event-test \
+	sfml-event-test \
+	window-example
 
 
 hello_world_SOURCES = hello-world.cpp
 
 
-event_test_SOURCES = \
-	event-test.cpp \
-	examples-utils.cpp examples-utils.hpp
+gtk_event_test_SOURCES = \
+	gtk-event-test.cpp \
+	utils.cpp utils.hpp
 
 sfml_event_test_SOURCES = \
 	sfml-event-test.cpp \
-	examples-utils.cpp examples-utils.hpp
+	utils.cpp utils.hpp
+
+
+window_example_SOURCES = \
+	window-example.cpp
+
 
 
 .PHONY: company

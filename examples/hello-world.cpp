@@ -6,7 +6,7 @@
 #include "DrawingArea.hpp"
 
 
-struct MyWidget : gtksfml::DrawingArea {
+struct MyDrawingArea : gtksfml::DrawingArea {
 
     sf::Font font;
     sf::Text hello_text;
@@ -14,7 +14,7 @@ struct MyWidget : gtksfml::DrawingArea {
     unsigned frame_counter = 0;
 
 
-    MyWidget()
+    MyDrawingArea()
     {
         font.loadFromFile(SRCDIR "/LiberationSans-Regular.ttf");
 
@@ -28,7 +28,7 @@ struct MyWidget : gtksfml::DrawingArea {
         fps_text.setPosition(40, 80);
 
         Glib::signal_timeout().
-            connect_seconds(sigc::mem_fun(*this, &MyWidget::update_fps),
+            connect_seconds(sigc::mem_fun(*this, &MyDrawingArea::update_fps),
                             1);
     }
 
@@ -59,8 +59,8 @@ int main()
     auto app = Gtk::Application::create();
     Gtk::ApplicationWindow window;
     window.set_default_size(640, 480);
-    MyWidget widget;
-    widget.show();
-    window.add(widget);
+    MyDrawingArea canvas;
+    canvas.show();
+    window.add(canvas);
     return app->run(window);
 }
