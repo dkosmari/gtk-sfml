@@ -22,6 +22,7 @@ using Glib::ustring;
 
 struct MyWidget : gtksfml::DrawingArea {
 
+
     using Parent = gtksfml::DrawingArea;
 
     sf::Font font;

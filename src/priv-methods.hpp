@@ -33,7 +33,6 @@
     }
 
 
-
 #define IMPL_SET_AUTO_UPDATE(T)                                                 \
     void                                                                        \
     T::set_auto_update(bool enable)                                             \

@@ -44,7 +44,7 @@ struct MyDrawingArea : gtksfml::DrawingArea {
 
     void on_render() override
     {
-        clear({0, 64, 128});
+        clear({64, 0, 128});
         draw(hello_text);
         draw(fps_text);
         display();

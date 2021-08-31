@@ -17,19 +17,19 @@
  */
 
 
-#ifndef GTKSFML_WINDOW_HPP
-#define GTKSFML_WINDOW_HPP
+#ifndef GTKSFML_APPLICATION_WINDOW_HPP
+#define GTKSFML_APPLICATION_WINDOW_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <gtkmm/builder.h>
-#include <gtkmm/window.h>
+#include <gtkmm/applicationwindow.h>
 
 
 namespace gtksfml {
 
 
-    class Window : public Gtk::Window,
-                   public sf::RenderWindow {
+    class ApplicationWindow : public Gtk::ApplicationWindow,
+                              public sf::RenderWindow {
 
         bool auto_update_state = false;
         guint tick_id;
@@ -55,8 +55,8 @@ namespace gtksfml {
 
     public:
 
-        Window(Gtk::WindowType type = Gtk::WindowType::WINDOW_TOPLEVEL);
-        Window(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder);
+        ApplicationWindow(const Glib::RefPtr<Gtk::Application>& application);
+        ApplicationWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder);
 
         // enable to call on_update() and on_render() periodically.
         void set_auto_update(bool enable);
@@ -64,7 +64,7 @@ namespace gtksfml {
 
 
         using sf::RenderWindow::draw;
-        using Gtk::Window::close;
+        using Gtk::ApplicationWindow::close;
     };
 
 

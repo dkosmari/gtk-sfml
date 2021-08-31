@@ -13,14 +13,18 @@ lib_LTLIBRARIES = libgtk-sfml.la
 
 
 libgtk_sfmldir = $(includedir)/gtk-sfml
-libgtk_sfml_HEADERS = DrawingArea.hpp
+libgtk_sfml_HEADERS = \
+	ApplicationWindow.hpp \
+	DrawingArea.hpp \
+	Window.hpp
 
 
 libgtk_sfml_la_SOURCES = \
+	ApplicationWindow.cpp \
 	DrawingArea.cpp \
 	priv-methods.hpp \
 	priv-utils.cpp priv-utils.hpp \
-	Window.cpp Window.hpp
+	Window.cpp
 
 
 libgtk_sfml_la_LIBADD = \
