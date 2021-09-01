@@ -23,7 +23,6 @@ config.log
 config.status
 configure
 examples/demo-*
-examples/hello-world
 examples/test-*
 libtool
 m4

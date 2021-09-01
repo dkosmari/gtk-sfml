@@ -47,6 +47,7 @@ namespace gtksfml {
         set_double_buffered(false);
         set_auto_update(true);
         add_events(Gdk::EventMask::POINTER_MOTION_MASK);
+        add_events(Gdk::EventMask::SCROLL_MASK);
     }
 
 

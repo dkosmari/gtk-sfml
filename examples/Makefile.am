@@ -26,33 +26,33 @@ noinst_PROGRAMS = \
 	demo-drawing-area \
 	demo-dvd-screensaver \
 	demo-window \
-	hello-world \
-	test-events \
+	demo-hello-world \
+	test-events-drawing-area \
 	test-events-sfml
 
 
-demo_application_window_SOURCES = demo-application-window.cpp
+demo_application_window_SOURCES = application-window.cpp
 
 
-demo_drawing_area_SOURCES = demo-drawing-area.cpp
+demo_drawing_area_SOURCES = drawing-area.cpp
 
 
-demo_dvd_screensaver_SOURCES = demo-dvd-screensaver.cpp utils.cpp utils.hpp
+demo_dvd_screensaver_SOURCES = dvd-screensaver.cpp
 
 
-demo_window_SOURCES = demo-window.cpp
+demo_window_SOURCES = window.cpp
 
 
-hello_world_SOURCES = hello-world.cpp
+demo_hello_world_SOURCES = hello-world.cpp
 
 
-test_events_SOURCES = \
-	test-events.cpp \
+test_events_drawing_area_SOURCES = \
+	events-drawing-area.cpp \
 	utils.cpp utils.hpp
 
 
 test_events_sfml_SOURCES = \
-	test-events-sfml.cpp \
+	events-sfml.cpp \
 	utils.cpp utils.hpp
 
 
