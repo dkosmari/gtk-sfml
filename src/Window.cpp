@@ -21,26 +21,29 @@
 
 #include "Window.hpp"
 
-#include "priv-utils.hpp"
-
 #include "priv-methods.hpp"
 
 
 namespace gtksfml {
 
-    using priv::utils::translate;
-    using priv::utils::get_handle;
-
-
     Window::Window(Gtk::WindowType type) :
         Gtk::Window{type}
+    {
+        init();
+    }
+
+
+    void
+    Window::init()
     {
         set_app_paintable(true);
         set_double_buffered(false);
         set_auto_update(true);
+        add_events(Gdk::EventMask::POINTER_MOTION_MASK);
+        add_events(Gdk::EventMask::SCROLL_MASK);
     }
 
 
-    IMPL_ALL(Window)
+    IMPL_ALL_WINDOW(Window)
 
 }

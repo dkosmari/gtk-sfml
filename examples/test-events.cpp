@@ -31,13 +31,14 @@ struct MyWidget : gtksfml::DrawingArea {
     sf::Text time_text;
     unsigned frame_counter = 0;
     bool has_event = false;
+    sf::Clock time_clock;
 
 
     MyWidget()
     {
         set_can_focus(true);
 
-        font.loadFromFile(SRCDIR "/LiberationSans-Regular.ttf");
+        font.loadFromFile(DEMO_FONT);
 
         time_text.setFont(font);
         time_text.setPosition(40, 20);
@@ -75,12 +76,13 @@ struct MyWidget : gtksfml::DrawingArea {
 
 
     // called before on_render()
-    void on_update(gint64 us)
+    void on_update() override
     {
+        float t = time_clock.getElapsedTime().asSeconds();
         string msg = ustring::format("time: ",
                                      std::fixed,
                                      std::setprecision(2),
-                                     us/1000000.);
+                                     t);
         time_text.setString(msg);
 
         if (has_event) {

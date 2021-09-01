@@ -37,6 +37,8 @@ namespace gtksfml {
         // hide this method, use on_event() instead
         using sf::RenderWindow::pollEvent;
 
+        void init();
+
     protected:
 
         bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
@@ -44,17 +46,23 @@ namespace gtksfml {
         bool on_focus_out_event(GdkEventFocus* event) override;
         bool on_key_press_event(GdkEventKey* event) override;
         bool on_key_release_event(GdkEventKey* event) override;
-        bool on_tick(const Glib::RefPtr<Gdk::FrameClock>& clock);
+        bool on_motion_notify_event(GdkEventMotion* event) override;
+        bool on_button_press_event(GdkEventButton* event) override;
+        bool on_button_release_event(GdkEventButton* event) override;
+        bool on_scroll_event(GdkEventScroll* event) override;
         void on_realize() override;
         void on_unrealize() override;
+
+        bool on_tick(const Glib::RefPtr<Gdk::FrameClock>& clock);
 
         // user should override these
         virtual void on_event(const sf::Event& event);
         virtual void on_render() = 0;
-        virtual void on_update(gint64 us);
+        virtual void on_update();
 
     public:
 
+        ApplicationWindow();
         ApplicationWindow(const Glib::RefPtr<Gtk::Application>& application);
         ApplicationWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder);
 

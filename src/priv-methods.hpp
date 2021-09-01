@@ -24,12 +24,18 @@
 #include <SFML/OpenGL.hpp>
 #include <gdkmm/general.h>
 
+#include "priv-utils.hpp"
+
+
+using gtksfml::priv::utils::translate;
+using gtksfml::priv::utils::get_handle;
+
 
 #define IMPL_BUILDER_CONSTRUCTOR(T)                                     \
     T::T(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>&) :  \
         Gtk::T{cobject}                                                 \
     {                                                                   \
-        set_auto_update(true);                                          \
+        init();                                                         \
     }
 
 
@@ -106,12 +112,12 @@
 
 #define IMPL_ON_TICK(T)                                         \
     bool                                                        \
-    T::on_tick(const Glib::RefPtr<Gdk::FrameClock>& clock)      \
+    T::on_tick(const Glib::RefPtr<Gdk::FrameClock>&)            \
     {                                                           \
         sf::Event event;                                        \
         while (pollEvent(event))                                \
             on_event(event);                                    \
-        on_update(clock->get_frame_time());                     \
+        on_update();                                            \
         queue_draw();                                           \
         return G_SOURCE_CONTINUE;                               \
     }
@@ -119,7 +125,7 @@
 
 #define IMPL_ON_UPDATE(T)                       \
     void                                        \
-    T::on_update(gint64)                        \
+    T::on_update()                              \
     {}
 
 
@@ -196,6 +202,89 @@
     IMPL_ON_KEY_RELEASE_EVENT(T)                \
     IMPL_ON_FOCUS_IN_EVENT(T)                   \
     IMPL_ON_FOCUS_OUT_EVENT(T)
+
+
+#define IMPL_ON_MOTION_NOTIFY_EVENT(T)                          \
+    bool                                                        \
+    T::on_motion_notify_event(GdkEventMotion* motion_event)     \
+    {                                                           \
+        sf::Event event;                                        \
+        event.type = sf::Event::EventType::MouseMoved;          \
+        event.mouseMove.x = motion_event->x;                    \
+        event.mouseMove.y = motion_event->y;                    \
+        on_event(event);                                        \
+        return true;                                            \
+    }
+
+
+#define IMPL_ON_BUTTON_PRESS_EVENT(T)                                   \
+    bool                                                                \
+    T::on_button_press_event(GdkEventButton* button_event)              \
+    {                                                                   \
+        if (button_event->type != GDK_BUTTON_PRESS)                     \
+            return false;                                               \
+        sf::Event event;                                                \
+        event.type = sf::Event::EventType::MouseButtonPressed;          \
+        event.mouseButton = translate(button_event);                    \
+        if (event.mouseButton.button != sf::Mouse::Button::ButtonCount) \
+            on_event(event);                                            \
+        return true;                                                    \
+    }
+
+
+#define IMPL_ON_BUTTON_RELEASE_EVENT(T)                                 \
+    bool                                                                \
+    T::on_button_release_event(GdkEventButton* button_event)            \
+    {                                                                   \
+        sf::Event event;                                                \
+        event.type = sf::Event::EventType::MouseButtonReleased;         \
+        event.mouseButton = translate(button_event);                    \
+        if (event.mouseButton.button != sf::Mouse::Button::ButtonCount) \
+            on_event(event);                                            \
+        return true;                                                    \
+    }
+
+
+#define IMPL_ON_SCROLL_EVENT(T)                                                 \
+    bool                                                                        \
+    T::on_scroll_event(GdkEventScroll* scroll_event)                            \
+    {                                                                           \
+        sf::Event event;                                                        \
+        switch (scroll_event->direction) {                                      \
+            case GDK_SCROLL_UP:                                                 \
+            case GDK_SCROLL_DOWN:                                               \
+                event.type = sf::Event::EventType::MouseWheelMoved;             \
+                event.mouseWheel = priv::utils::translate_vert(scroll_event);   \
+                if (event.mouseWheel.delta)                                     \
+                    on_event(event);                                            \
+                return true;                                                    \
+            case GDK_SCROLL_SMOOTH:                                             \
+                {                                                               \
+                    event.type = sf::Event::EventType::MouseWheelScrolled;      \
+                    auto [eh, ev] = priv::utils::translate_smooth(scroll_event); \
+                    if (eh.delta) {                                             \
+                        event.mouseWheelScroll = eh;                            \
+                        on_event(event);                                        \
+                    }                                                           \
+                    if (ev.delta) {                                             \
+                        event.mouseWheelScroll = ev;                            \
+                        on_event(event);                                        \
+                    }                                                           \
+                    return true;                                                \
+                }                                                               \
+            default:                                                            \
+                return false;                                                   \
+        }                                                                       \
+    }
+
+
+
+#define IMPL_ALL_WINDOW(T)                      \
+    IMPL_ALL(T)                                 \
+    IMPL_ON_MOTION_NOTIFY_EVENT(T)              \
+    IMPL_ON_BUTTON_PRESS_EVENT(T)               \
+    IMPL_ON_BUTTON_RELEASE_EVENT(T)             \
+    IMPL_ON_SCROLL_EVENT(T)
 
 
 #endif

@@ -19,7 +19,7 @@ int main()
     window.setVerticalSyncEnabled(true);
 
     sf::Font font;
-    font.loadFromFile(SRCDIR "/LiberationSans-Regular.ttf");
+    font.loadFromFile(DEMO_FONT);
 
     sf::Text time_text;
     time_text.setFont(font);

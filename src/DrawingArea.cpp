@@ -21,20 +21,20 @@
 
 #include "DrawingArea.hpp"
 
-
-#include "priv-utils.hpp"
-
 #include "priv-methods.hpp"
 
 
 namespace gtksfml {
 
 
-    using priv::utils::translate;
-    using priv::utils::get_handle;
-
-
     DrawingArea::DrawingArea()
+    {
+        init();
+    }
+
+
+    void
+    DrawingArea::init()
     {
         set_auto_update(true);
     }

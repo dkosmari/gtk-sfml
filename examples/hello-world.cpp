@@ -16,7 +16,7 @@ struct MyDrawingArea : gtksfml::DrawingArea {
 
     MyDrawingArea()
     {
-        font.loadFromFile(SRCDIR "/LiberationSans-Regular.ttf");
+        font.loadFromFile(DEMO_FONT);
 
         hello_text.setFont(font);
         hello_text.setString("Hello World!");

@@ -20,15 +20,16 @@
 #include "priv-utils.hpp"
 
 
+using std::pair;
+
+
 namespace gtksfml::priv::utils {
 
 
     sf::Keyboard::Key
-    translate(guint val)
+    translate_key(guint val)
     {
         using Key = sf::Keyboard::Key;
-
-        //clog << "--- translating: " << val << endl;
 
         switch (val) {
             case GDK_KEY_A: case GDK_KEY_a:
@@ -280,7 +281,7 @@ namespace gtksfml::priv::utils {
         result.shift = state & GDK_SHIFT_MASK;
         result.system = state & GDK_SUPER_MASK;
 
-        result.code = translate(gkey->keyval);
+        result.code = translate_key(gkey->keyval);
 
         return result;
     }
@@ -296,5 +297,80 @@ namespace gtksfml::priv::utils {
 #endif
     }
 
+
+    sf::Mouse::Button
+    translate_button(guint b)
+    {
+        switch (b) {
+            case 1:
+                return sf::Mouse::Button::Left;
+            case 2:
+                return sf::Mouse::Button::Middle;
+            case 3:
+                return sf::Mouse::Button::Right;
+            case 4:
+                return sf::Mouse::Button::XButton1;
+            case 5:
+                return sf::Mouse::Button::XButton2;
+            default:
+                return sf::Mouse::Button::ButtonCount;
+        }
+    }
+
+
+    sf::Event::MouseButtonEvent
+    translate(GdkEventButton* motion_event)
+    {
+        sf::Event::MouseButtonEvent result;
+        result.x = motion_event->x;
+        result.y = motion_event->y;
+        result.button = translate_button(motion_event->button);
+        return result;
+    }
+
+
+
+
+    sf::Event::MouseWheelEvent
+    translate_vert(GdkEventScroll* scroll_event)
+    {
+        sf::Event::MouseWheelEvent e;
+        e.x = scroll_event->x;
+        e.y = scroll_event->y;
+        switch (scroll_event->direction) {
+            case GDK_SCROLL_UP:
+                e.delta = 1;
+                break;
+            case GDK_SCROLL_DOWN:
+                e.delta = -1;
+                break;
+            default:
+                e.delta = 0;
+        }
+        return e;
+    }
+
+
+    pair<sf::Event::MouseWheelScrollEvent,
+         sf::Event::MouseWheelScrollEvent>
+    translate_smooth(GdkEventScroll* scroll_event)
+    {
+        sf::Event::MouseWheelScrollEvent h, v;
+
+        h.wheel = sf::Mouse::Wheel::HorizontalWheel;
+        v.wheel = sf::Mouse::Wheel::VerticalWheel;
+
+        h.x = v.x = scroll_event->x;
+        h.y = v.y = scroll_event->y;
+
+        if (scroll_event->direction == GDK_SCROLL_SMOOTH) {
+            // TODO: check if horizontal sign matches SFML
+            h.delta = -scroll_event->delta_x;
+            v.delta = -scroll_event->delta_y;
+        } else
+            h.delta = v.delta = 0;
+
+        return {h, v};
+    }
 
 }

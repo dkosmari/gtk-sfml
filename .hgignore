@@ -22,9 +22,9 @@ config.h.in
 config.log
 config.status
 configure
-examples/event-test
+examples/demo-*
 examples/hello-world
-examples/sfml-event-test
+examples/test-*
 libtool
 m4
 Makefile

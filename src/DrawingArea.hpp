@@ -35,6 +35,8 @@ namespace gtksfml {
         // hide this method, use on_event() instead
         using sf::RenderWindow::pollEvent;
 
+        void init();
+
     protected:
 
         bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
@@ -49,7 +51,7 @@ namespace gtksfml {
         // user should override these
         virtual void on_event(const sf::Event& event);
         virtual void on_render() = 0;
-        virtual void on_update(gint64 us);
+        virtual void on_update();
 
     public:
 

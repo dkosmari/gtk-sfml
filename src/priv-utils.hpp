@@ -20,6 +20,7 @@
 #ifndef GTKSFML_PRIV_UTILS_HPP
 #define GTKSFML_PRIV_UTILS_HPP
 
+#include <utility>
 
 #include <SFML/Window/Event.hpp>
 #include <gdk/gdk.h>
@@ -49,6 +50,18 @@ namespace gtksfml::priv::utils {
 
     WinHandle get_handle(GdkWindow* w);
 
+
+    sf::Event::MouseButtonEvent
+    translate(GdkEventButton* motion_event);
+
+
+    sf::Event::MouseWheelEvent
+    translate_vert(GdkEventScroll* scroll_event);
+
+
+    std::pair<sf::Event::MouseWheelScrollEvent,
+              sf::Event::MouseWheelScrollEvent>
+    translate_smooth(GdkEventScroll* scroll_event);
 
 }
 

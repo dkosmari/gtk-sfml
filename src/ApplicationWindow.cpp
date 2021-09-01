@@ -21,26 +21,35 @@
 
 #include "ApplicationWindow.hpp"
 
-#include "priv-utils.hpp"
-
 #include "priv-methods.hpp"
 
 
 namespace gtksfml {
 
-    using priv::utils::translate;
-    using priv::utils::get_handle;
+
+    ApplicationWindow::ApplicationWindow()
+    {
+        init();
+    }
 
 
     ApplicationWindow::ApplicationWindow(const Glib::RefPtr<Gtk::Application>& application) :
         Gtk::ApplicationWindow{application}
     {
-        set_app_paintable(true);
-        set_double_buffered(false);
-        set_auto_update(true);
+        init();
     }
 
 
-    IMPL_ALL(ApplicationWindow)
+    void
+    ApplicationWindow::init()
+    {
+        set_app_paintable(true);
+        set_double_buffered(false);
+        set_auto_update(true);
+        add_events(Gdk::EventMask::POINTER_MOTION_MASK);
+    }
+
+
+    IMPL_ALL_WINDOW(ApplicationWindow)
 
 }

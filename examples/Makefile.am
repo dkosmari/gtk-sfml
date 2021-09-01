@@ -11,7 +11,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src \
 	$(GTKMM_CFLAGS) \
 	$(SFML_CFLAGS) \
-	-DSRCDIR=\"$(abs_srcdir)\"
+	-DDEMO_FONT=\"$(abs_srcdir)/LiberationSans-Regular.ttf\" \
+	-DNOT_INSTALLED
 
 
 LDADD = \
@@ -21,27 +22,38 @@ LDADD = \
 
 
 noinst_PROGRAMS = \
+	demo-application-window \
+	demo-drawing-area \
+	demo-dvd-screensaver \
+	demo-window \
 	hello-world \
-	gtk-event-test \
-	sfml-event-test \
-	window-example
+	test-events \
+	test-events-sfml
+
+
+demo_application_window_SOURCES = demo-application-window.cpp
+
+
+demo_drawing_area_SOURCES = demo-drawing-area.cpp
+
+
+demo_dvd_screensaver_SOURCES = demo-dvd-screensaver.cpp utils.cpp utils.hpp
+
+
+demo_window_SOURCES = demo-window.cpp
 
 
 hello_world_SOURCES = hello-world.cpp
 
 
-gtk_event_test_SOURCES = \
-	gtk-event-test.cpp \
-	utils.cpp utils.hpp
-
-sfml_event_test_SOURCES = \
-	sfml-event-test.cpp \
+test_events_SOURCES = \
+	test-events.cpp \
 	utils.cpp utils.hpp
 
 
-window_example_SOURCES = \
-	window-example.cpp
-
+test_events_sfml_SOURCES = \
+	test-events-sfml.cpp \
+	utils.cpp utils.hpp
 
 
 .PHONY: company
