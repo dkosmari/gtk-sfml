@@ -1,14 +1,14 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.70])
-AC_INIT([libgtk-sfml], [0.2], [])
+AC_PREREQ([2.71])
+AC_INIT([gtk-sfml], [0.2], [])
 AC_CONFIG_SRCDIR([src/DrawingArea.cpp])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([foreign])
 LT_INIT([disable-static])
 
 # Checks for programs.
@@ -41,8 +41,8 @@ PKG_CHECK_MODULES([SFML], [sfml-graphics])
 
 AC_CONFIG_FILES([
         examples/Makefile
-        libgtk-sfml.pc
-        libgtk-sfml.spec
+        gtk-sfml.pc
+        gtk-sfml.spec
         Makefile
         src/Makefile
 ])

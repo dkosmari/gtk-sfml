@@ -1,12 +1,10 @@
 # top Makefile.am
 
-ACLOCAL_AMFLAGS = -I m4
-
-
 EXTRA_DIST = \
 	bootstrap \
-	libgtk-sfml.pc.in \
-	libgtk-sfml.spec.in
+	gtk-sfml.pc.in \
+	gtk-sfml.spec.in \
+	README.md
 
 
 SUBDIRS = src examples
@@ -14,7 +12,7 @@ SUBDIRS = src examples
 
 
 pcfiledir = $(pkgconfigdir)
-pcfile_DATA = libgtk-sfml.pc
+pcfile_DATA = gtk-sfml.pc
 
 
 
@@ -23,7 +21,7 @@ pcfile_DATA = libgtk-sfml.pc
 TARBALL_NAME = $(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.gz
 RPM_TARBALL_NAME = $(HOME)/rpmbuild/SOURCES/$(TARBALL_NAME)
 
-rpm: libgtk-sfml.spec dist-gzip
+rpm: gtk-sfml.spec dist-gzip
 	[ -e $(RPM_TARBALL_NAME) ] || \
 		$(LN_S) $(PWD)/$(TARBALL_NAME) $(RPM_TARBALL_NAME)
 	rpmbuild -ba $<
