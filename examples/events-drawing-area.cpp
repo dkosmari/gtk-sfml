@@ -18,7 +18,6 @@ using std::string;
 using Glib::ustring;
 
 
-
 struct MyWidget : gtksfml::DrawingArea {
 
 
