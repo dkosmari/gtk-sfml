@@ -19,7 +19,7 @@ provided, inheriting from the gtkmm widget of the same name, and from
 ## Example
 
 ```cpp
-examples/hello-world.cpp
+# examples/hello-world.cpp
 ```
 
 ## Prerequisites
