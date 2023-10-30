@@ -1,7 +1,7 @@
 # GTK-SFML - A set of gtkmm widgets for integration with SFML.
 
 GTK-SFML is a C++ library that integrates [SFML](https://www.sfml-dev.org/) with
-[gtkmm](https://gtkmm.org). Currently only gtkmm-3 is supported.
+[gtkmm](https://gtkmm.org).
 
 On some systems, this approach allows for higher frame rates than using OpenGL directly
 with GTK+ (e.g. GTK+ will cap the OpenGL rendering to 30 fps, while gtk-sfml will perform
