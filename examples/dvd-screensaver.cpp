@@ -48,7 +48,7 @@ struct MyWindow : gtksfml::Window {
     sf::Vector2f speed{random_dir(100)};
     sf::Font font;
     sf::Text text{"DVD", font, 80};
-    sf::RectangleShape click_marker{{8, 8}};
+    sf::RectangleShape click_marker{{16, 16}};
     bool click_visible = false;
 
     std::vector<sf::Color> colors {
@@ -85,7 +85,7 @@ struct MyWindow : gtksfml::Window {
         std::random_shuffle(colors.begin(), colors.end());
         text.setFillColor(colors[current_color]);
 
-        click_marker.setOrigin(4, 4);
+        click_marker.setOrigin(click_marker.getSize() / 2.0f);
     }
 
 
@@ -149,34 +149,59 @@ struct MyWindow : gtksfml::Window {
     }
 
 
+#if 0
+    // Here we handle the mouse through SFML events as if they came from
+    // sf::Window::pollEvent().
     void
     on_event(const sf::Event& event) override
     {
         switch (event.type) {
-            case sf::Event::EventType::MouseButtonPressed: {
-                auto tpos = text.getPosition();
-                sf::Vector2i mpixel{event.mouseButton.x, event.mouseButton.y};
-                auto mpos = mapPixelToCoords(mpixel);
-                speed = mpos - tpos;
-                change_color();
-
-                click_marker.setPosition(mpos);
-                click_visible = true;
-                break;
-            }
-            case sf::Event::EventType::MouseButtonReleased:
-                click_visible = false;
-                break;
-            default:
-                ;
-
+        case sf::Event::EventType::MouseButtonPressed:
+            handle_mouse_click(event.mouseButton.x, event.mouseButton.y);
+            break;
+        case sf::Event::EventType::MouseButtonReleased:
+            click_visible = false;
+            break;
+        default:
+            ;
         }
+    }
+#else
+    // Same thing, but use the gtkmm event handling instead.
 
+    bool
+    on_button_press_event(GdkEventButton* event)
+        override
+    {
+        handle_mouse_click(event->x, event->y);
+        return false; // allow the event to propagate to GTK+
+    }
+
+    bool
+    on_button_release_event(GdkEventButton* event)
+        override
+    {
+        click_visible = false;
+        return false; // allow the event to propagate to GTK+
+    }
+#endif
+
+
+    void
+    handle_mouse_click(float x, float y)
+    {
+        auto tpos = text.getPosition();
+        sf::Vector2i mpixel(x, y);
+        auto mpos = mapPixelToCoords(mpixel);
+        speed = mpos - tpos;
+        change_color();
+
+        click_marker.setPosition(mpos);
+        click_visible = true;
     }
 
 
 };
-
 
 
 int main()
