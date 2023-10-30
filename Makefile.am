@@ -25,5 +25,3 @@ pcfile_DATA = gtk-sfml.pc
 rpm: gtk-sfml.spec dist-gzip
 	rpmbuild -ba --define="_sourcedir $(abs_top_srcdir)" $<
 
-# [ -e $(RPM_TARBALL_NAME) ] || \
-# 	$(LN_S) $(PWD)/$(TARBALL_NAME) $(RPM_TARBALL_NAME)
