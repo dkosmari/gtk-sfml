@@ -3,7 +3,12 @@
 #include <SFML/Graphics.hpp>
 #include <gtkmm.h>
 
+
+#ifdef NOT_INSTALLED
 #include "DrawingArea.hpp"
+#else
+# include <gtk-sfml/DrawingArea.hpp>
+#endif
 
 
 struct MyDrawingArea : gtksfml::DrawingArea {
