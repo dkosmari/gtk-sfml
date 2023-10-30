@@ -4,8 +4,7 @@
 Name:           @PACKAGE_NAME@
 Version:        @PACKAGE_VERSION@
 Release:        %mkrel 1
-Summary:        A set of widgets for integrating SFML into gtkmm3.
-#Group:          System/Libraries
+#Summary:        A set of widgets for integrating SFML into gtkmm3.
 
 License:        GPLv3+
 Source0:        @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
@@ -76,5 +75,5 @@ development.
 %doc NEWS
 %{_includedir}/gtk-sfml/*.hpp
 %{_libdir}/*.so
-%{_libdir}/pkgconfig/libgtk-sfml.pc
+%{_libdir}/pkgconfig/gtk-sfml.pc
 %{_libdir}/*.la
