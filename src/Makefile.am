@@ -1,7 +1,7 @@
 # src/Makefile.am
 
 
-AM_CXXFLAGS = -Wall -Wextra -Werror
+AM_CXXFLAGS = -Wall -Wextra
 
 
 AM_CPPFLAGS = \
