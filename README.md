@@ -48,7 +48,6 @@ struct MyWindow :
         draw(text);
         display();
     }
-
 };
 
 int main()
@@ -64,7 +63,7 @@ int main()
 
 For this library to work you need:
 
-- [gtkmm](https://gtkmm.org)
+- [gtkmm](https://gtkmm.org) (only gtkmm 3.x is supported at the moment)
 - [SFML](https://www.sfml-dev.org/)
 
 
