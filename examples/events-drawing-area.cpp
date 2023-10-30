@@ -5,10 +5,9 @@
 #include <SFML/Graphics.hpp>
 #include <gtkmm.h>
 
+#include <gtk-sfml/DrawingArea.hpp>
 
-#include "DrawingArea.hpp"
-
-
+#include "font.hpp"
 #include "utils.hpp"
 
 
@@ -38,7 +37,7 @@ struct MyWidget : gtksfml::DrawingArea {
     {
         set_can_focus(true);
 
-        font.loadFromFile(DEMO_FONT);
+        font.loadFromMemory(FONT_DATA, FONT_SIZE);
 
         time_text.setFont(font);
         time_text.setPosition(40, 20);

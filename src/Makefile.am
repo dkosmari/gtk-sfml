@@ -6,17 +6,11 @@ AM_CXXFLAGS = -Wall -Wextra -Werror
 
 AM_CPPFLAGS = \
 	$(GTKMM_CFLAGS) \
-	$(SFML_CFLAGS)
+	$(SFML_CFLAGS) \
+	-I$(top_srcdir)/include
 
 
 lib_LTLIBRARIES = libgtk-sfml.la
-
-
-libgtk_sfmldir = $(includedir)/gtk-sfml
-libgtk_sfml_HEADERS = \
-	ApplicationWindow.hpp \
-	DrawingArea.hpp \
-	Window.hpp
 
 
 libgtk_sfml_la_SOURCES = \

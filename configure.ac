@@ -45,6 +45,7 @@ AC_CONFIG_FILES([
         examples/Makefile
         gtk-sfml.pc
         gtk-sfml.spec
+        include/Makefile
         Makefile
         src/Makefile
 ])

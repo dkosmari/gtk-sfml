@@ -19,7 +19,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <gdkmm/frameclock.h>
 
-#include "Window.hpp"
+#include "gtk-sfml/Window.hpp"
 
 #include "priv-methods.hpp"
 

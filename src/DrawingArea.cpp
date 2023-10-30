@@ -19,7 +19,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <gdkmm/frameclock.h>
 
-#include "DrawingArea.hpp"
+#include "gtk-sfml/DrawingArea.hpp"
 
 #include "priv-methods.hpp"
 

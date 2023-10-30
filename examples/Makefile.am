@@ -8,17 +8,22 @@ AM_CXXFLAGS = -Wall -Werror
 
 
 AM_CPPFLAGS = \
-	-I$(top_srcdir)/src \
 	$(GTKMM_CFLAGS) \
 	$(SFML_CFLAGS) \
-	-DDEMO_FONT=\"$(abs_srcdir)/LiberationSans-Regular.ttf\" \
-	-DNOT_INSTALLED
+	-I$(top_srcdir)/include
 
 
 LDADD = \
 	$(top_builddir)/src/libgtk-sfml.la \
 	$(GTKMM_LIBS) \
 	$(SFML_LIBS)
+
+
+# this will pack a .ttf font into an object to be linked with the program.
+SUFFIXES = .ttf
+
+.ttf.o:
+	$(LD) --format binary --relocatable -z noexecstack $< -o $@
 
 
 noinst_PROGRAMS = \
@@ -30,30 +35,35 @@ noinst_PROGRAMS = \
 	test-events-drawing-area \
 	test-events-sfml
 
-
-demo_application_window_SOURCES = application-window.cpp
-
-
-demo_drawing_area_SOURCES = drawing-area.cpp
+# common sources for all examples
+COMMON = font.hpp LiberationSans-Regular.ttf
 
 
-demo_dvd_screensaver_SOURCES = dvd-screensaver.cpp
+demo_application_window_SOURCES = application-window.cpp $(COMMON)
 
 
-demo_window_SOURCES = window.cpp
+demo_drawing_area_SOURCES = drawing-area.cpp $(COMMON)
 
 
-demo_hello_world_SOURCES = hello-world.cpp
+demo_dvd_screensaver_SOURCES = dvd-screensaver.cpp $(COMMON)
+
+
+demo_window_SOURCES = window.cpp $(COMMON)
+
+
+demo_hello_world_SOURCES = hello-world.cpp $(COMMON)
 
 
 test_events_drawing_area_SOURCES = \
 	events-drawing-area.cpp \
-	utils.cpp utils.hpp
+	utils.cpp utils.hpp \
+	$(COMMON)
 
 
 test_events_sfml_SOURCES = \
 	events-sfml.cpp \
-	utils.cpp utils.hpp
+	utils.cpp utils.hpp \
+	$(COMMON)
 
 
 .PHONY: company

@@ -3,12 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include <gtkmm.h>
 
+#include <gtk-sfml/DrawingArea.hpp>
 
-#ifdef NOT_INSTALLED
-#include "DrawingArea.hpp"
-#else
-# include <gtk-sfml/DrawingArea.hpp>
-#endif
+#include "font.hpp"
 
 
 struct MyDrawingArea : gtksfml::DrawingArea {
@@ -21,7 +18,7 @@ struct MyDrawingArea : gtksfml::DrawingArea {
 
     MyDrawingArea()
     {
-        font.loadFromFile(DEMO_FONT);
+        font.loadFromMemory(FONT_DATA, FONT_SIZE);
 
         hello_text.setFont(font);
         hello_text.setString("Hello World!");

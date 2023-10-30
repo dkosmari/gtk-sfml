@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "font.hpp"
 #include "utils.hpp"
 
 
@@ -19,7 +20,7 @@ int main()
     window.setVerticalSyncEnabled(true);
 
     sf::Font font;
-    font.loadFromFile(DEMO_FONT);
+    font.loadFromMemory(FONT_DATA, FONT_SIZE);
 
     sf::Text time_text;
     time_text.setFont(font);

@@ -7,7 +7,10 @@ EXTRA_DIST = \
 	README.md
 
 
-SUBDIRS = src examples
+SUBDIRS = \
+	include \
+	src \
+	examples
 
 
 

@@ -5,13 +5,9 @@
 #include <SFML/System/Vector2.hpp>
 #include <gtkmm.h>
 
+#include <gtk-sfml/DrawingArea.hpp>
 
-#ifdef NOT_INSTALLED
-# include "DrawingArea.hpp"
-#else
-# include <gtk-sfml/DrawingArea.hpp>
-#endif
-
+#include "font.hpp"
 
 
 struct MyDrawingArea :
@@ -24,7 +20,7 @@ struct MyDrawingArea :
     MyDrawingArea()
     {
         set_size_request(512, 300);
-        font.loadFromFile(DEMO_FONT);
+        font.loadFromMemory(FONT_DATA, FONT_SIZE);
         text.setPosition(100, 100);
     }
 

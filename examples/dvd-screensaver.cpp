@@ -7,12 +7,9 @@
 #include <SFML/System/Vector2.hpp>
 #include <gtkmm.h>
 
+#include <gtk-sfml/Window.hpp>
 
-#ifdef NOT_INSTALLED
-# include "Window.hpp"
-#else
-# include <gtk-sfml/Window.hpp>
-#endif
+#include "font.hpp"
 
 
 std::default_random_engine rnd_eng{std::random_device{}()};
@@ -77,7 +74,7 @@ struct MyWindow : gtksfml::Window {
     {
         set_default_size(800, 600);
 
-        font.loadFromFile(DEMO_FONT);
+        font.loadFromMemory(FONT_DATA, FONT_SIZE);
 
         text.setStyle(sf::Text::Bold | sf::Text::Italic);
         auto bounds = text.getLocalBounds();

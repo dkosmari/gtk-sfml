@@ -5,12 +5,9 @@
 #include <SFML/System/Vector2.hpp>
 #include <gtkmm.h>
 
+#include <gtk-sfml/Window.hpp>
 
-#ifdef NOT_INSTALLED
-# include "Window.hpp"
-#else
-# include <gtk-sfml/Window.hpp>
-#endif
+#include "font.hpp"
 
 
 struct MyWindow :
@@ -23,7 +20,7 @@ struct MyWindow :
     MyWindow()
     {
         set_default_size(500, 300);
-        font.loadFromFile(DEMO_FONT);
+        font.loadFromMemory(FONT_DATA, FONT_SIZE);
         text.setPosition(100, 100);
     }
 
