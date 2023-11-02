@@ -65,9 +65,9 @@ methods:
  - `void on_event(const sf::Event& event)`: this is how GTK+ events can be handled as if
    they were SFML events. You cannot use `pollEvents()` to retrieve events, since GTK+ is
    handling the events.
- - `virtual void on_render()`: (**mandatory**) called by GTK+ during a widget's "draw"
+ - `void on_render()`: (**mandatory**) called by GTK+ during a widget's "draw"
    event.
- - `virtual void on_update()`: called periodically if the "auto update" flag is set.
+ - `void on_update()`: called periodically if the "auto update" flag is set.
 
 Each GTK-SFML widget has an "auto-update" flag, that can be set by the
 `set_auto_update(bool enable)` method. When it's turned on, the `on_update()` method will
