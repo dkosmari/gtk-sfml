@@ -63,7 +63,7 @@ To use these classes, the user must derive from them, and override one or more o
 methods:
 
  - `void on_event(const sf::Event& event)`: this is how GTK+ events can be handled as if
-   they were SFML events. You cannot use `pollEvents()` to retrieve events, since GTK+ is
+   they were SFML events. You cannot use `pollEvent()` to retrieve events, since GTK+ is
    handling the events.
  - `void on_render()`: (**mandatory**) called by GTK+ during a widget's "draw"
    event.
