@@ -7,13 +7,8 @@ On some systems, this approach allows for higher frame rates than using OpenGL d
 with GTK+ (e.g. GTK+ will cap the OpenGL rendering to 30 fps, while gtk-sfml will perform
 the exact same rendering at 60 fps)
 
-This is done through widgets that handle GTK+ events for SFML. The following widgets are
-provided, inheriting from the gtkmm widget of the same name, and from
-`sfml::RenderWindow`:
-
-- `gtksfml::ApplicationWindow` (from [`<gtk-sfml/ApplicationWindow.hpp>`](include/gtk-sfml/ApplicationWindow.hpp))
-- `gtksfml::DrawingArea` (from [`<gtk-sfml/DrawingArea.hpp>`](include/gtk-sfml/DrawingArea.hpp))
-- `gtksfml::Window` (from [`<gtk-sfml/Window.hpp>`](include/gtk-sfml/Window.hpp))
+This is done through widgets (`gtksfml::ApplicationWindow`, `gtksfml::DrawingArea` and
+`gtksfml::Window`) that offer an `on_render()` pure virtual method for SFML rendering.
 
 
 ## Example
@@ -58,6 +53,29 @@ int main()
 }
 ```
 
+The following widgets are provided:
+
+- `gtksfml::ApplicationWindow` (from [`<gtk-sfml/ApplicationWindow.hpp>`](include/gtk-sfml/ApplicationWindow.hpp))
+- `gtksfml::DrawingArea` (from [`<gtk-sfml/DrawingArea.hpp>`](include/gtk-sfml/DrawingArea.hpp))
+- `gtksfml::Window` (from [`<gtk-sfml/Window.hpp>`](include/gtk-sfml/Window.hpp))
+
+To use these classes, the user must derive from them, and override one or more of the
+methods:
+
+ - `void on_event(const sf::Event& event)`: this is how GTK+ events can be handled as if
+   they were SFML events. You cannot use `pollEvents()` to retrieve events, since GTK+ is
+   handling the events.
+ - `virtual void on_render()`: (**mandatory**) called by GTK+ during a widget's "draw"
+   event.
+ - `virtual void on_update()`: called periodically if the "auto update" flag is set.
+
+Each GTK-SFML widget has an "auto-update" flag, that can be set by the
+`set_auto_update(bool enable)` method. When it's turned on, the `on_update()` method will
+be called periodically, followed by a redraw request (that will invoke `on_render()`). If
+"auto-update" is not set, the `on_update()` method is not called, and the redraw only
+occurs when GTK+ deems it necessary (e.g. the widget got resized.) To render
+animations, you should enable the "auto-update" flag. This flag is disabled by default.
+
 
 ## Prerequisites
 
@@ -65,6 +83,7 @@ For this library to work you need:
 
 - [gtkmm](https://gtkmm.org) (only gtkmm 3.x is supported at the moment)
 - [SFML](https://www.sfml-dev.org/)
+- A C++11 (or better) compiler.
 
 
 ## Build instructions

@@ -254,6 +254,7 @@ operator<<(ostream& out,
             break;
         case ET::TouchEnded:
             out << "TouchEnded[" << e.touch << "]";
+            break;
         case ET::TouchMoved:
             out << "TouchMoved[" << e.touch << "]";
             break;
