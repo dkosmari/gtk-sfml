@@ -83,11 +83,6 @@ For more installation options, use `./configure --help`. This is a standard Auto
 package.
 
 
-## Building a RPM package
-
-Use `make rpm`.
-
-
 ## Usage
 
 A `pkg-config` script, `gtk-sfml.pc` will be installed, which provides the compilation and
