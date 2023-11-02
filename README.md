@@ -88,3 +88,58 @@ package.
 Use `make rpm`.
 
 
+## Usage
+
+A `pkg-config` script, `gtk-sfml.pc` will be installed, which provides the compilation and
+linker flags to use gtk-sfml.
+
+### With Makefiles
+ In a Makefile, you would use:
+
+```Makefile
+CXXFLAGS := $(shell pkg-config --cflags gtk-sfml)
+LIBS := $(shell pkg-config --libs gtk-sfml)
+```
+
+
+### With Autoconf/Automake
+
+If using Autoconf/Automake, you can use the `PKG_CHECK_MODULES` macro in `configure.ac`:
+
+```
+PKG_CHECK_MODULES([GTK_SFML], [gtk-sfml])
+```
+
+Then the `Makefile.am` can use:
+
+```Makefile
+AM_CXXFLAGS = $(GTKSFML_CFLAGS)
+LDADD = $(GTKSFML_LIBS)
+# if linking into a library, use _LIBADD instead of LDADD
+```
+
+
+### With Cmake
+
+The [FindPkgConfig](https://cmake.org/cmake/help/latest/module/FindPkgConfig.html) module can obtain the flags from a pkg-config module:
+
+```
+find_package(PkgConfig)
+
+pkg_check_modules(GTKSFML gtk-sfml)
+
+# now use GTKSFML_CFLAGS and GTKSFML_LDFLAGS in your target
+```
+
+
+### Invoking the compiler directly
+
+Simply use [command
+substitution](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html)
+to invoke `pkg-config`:
+
+```
+g++ -c my-code.cpp $(pkg-config gtk-sfml --cflags)
+g++ my-code.o -o my-program $(pkg-config gtk-sfml --libs)
+```
+
