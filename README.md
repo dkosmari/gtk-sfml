@@ -11,9 +11,9 @@ This is done through widgets that handle GTK+ events for SFML. The following wid
 provided, inheriting from the gtkmm widget of the same name, and from
 `sfml::RenderWindow`:
 
-- `gtksfml::ApplicationWindow` (from `<gtksfml/ApplicationWindow.hpp>`)
-- `gtksfml::DrawingArea` (from `<gtksfml/DrawingArea.hpp>`)
-- `gtksfml::Window` (from `<gtksfml/Window.hpp>`)
+- `gtksfml::ApplicationWindow` (from [`<gtk-sfml/ApplicationWindow.hpp>`](include/gtk-sfml/ApplicationWindow.hpp))
+- `gtksfml::DrawingArea` (from [`<gtk-sfml/DrawingArea.hpp>`](include/gtk-sfml/DrawingArea.hpp))
+- `gtksfml::Window` (from [`<gtk-sfml/Window.hpp>`](include/gtk-sfml/Window.hpp))
 
 
 ## Example
