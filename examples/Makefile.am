@@ -4,7 +4,7 @@
 EXTRA_DIST = LiberationSans-Regular.ttf
 
 
-AM_CXXFLAGS = -Wall -Werror
+AM_CXXFLAGS = -Wall -Wextra
 
 
 AM_CPPFLAGS = \
@@ -24,6 +24,9 @@ SUFFIXES = .ttf
 
 .ttf.o:
 	$(LD) --format binary --relocatable -z noexecstack $< -o $@
+
+
+if ENABLE_EXAMPLES
 
 
 noinst_PROGRAMS = \
@@ -64,6 +67,9 @@ test_events_sfml_SOURCES = \
 	events-sfml.cpp \
 	utils.cpp utils.hpp \
 	$(COMMON)
+
+
+endif ENABLE_EXAMPLES
 
 
 .PHONY: company

@@ -55,7 +55,7 @@ development.
 
 
 %build
-%configure --disable-static
+%configure --disable-static --disable-examples
 %make_build
 
 

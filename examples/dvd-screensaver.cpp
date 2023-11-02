@@ -82,7 +82,7 @@ struct MyWindow : gtksfml::Window {
                        bounds.top + bounds.height/2.0f);
         text.setPosition(400, 300);
 
-        std::random_shuffle(colors.begin(), colors.end());
+        std::shuffle(colors.begin(), colors.end(), rnd_eng);
         text.setFillColor(colors[current_color]);
 
         click_marker.setOrigin(click_marker.getSize() / 2.0f);
@@ -150,8 +150,10 @@ struct MyWindow : gtksfml::Window {
 
 
 #if 0
+
     // Here we handle the mouse through SFML events as if they came from
     // sf::Window::pollEvent().
+
     void
     on_event(const sf::Event& event) override
     {
@@ -166,7 +168,9 @@ struct MyWindow : gtksfml::Window {
             ;
         }
     }
+
 #else
+
     // Same thing, but use the gtkmm event handling instead.
 
     bool
@@ -178,12 +182,13 @@ struct MyWindow : gtksfml::Window {
     }
 
     bool
-    on_button_release_event(GdkEventButton* event)
+    on_button_release_event(GdkEventButton*)
         override
     {
         click_visible = false;
         return false; // allow the event to propagate to GTK+
     }
+
 #endif
 
 
