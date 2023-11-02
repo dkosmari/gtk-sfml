@@ -1,18 +1,19 @@
 # This SPEC was tested with Mageia 9 distro.
 
-%define libname %mklibname gtk-sfml
-%define devname %mklibname gtk-sfml -d
-
 Name:           @PACKAGE_NAME@
 Version:        @PACKAGE_VERSION@
-Release:        %mkrel 1
+Release:        2%{?dist}
 Summary:        A set of widgets for integrating SFML into gtkmm3.
+Group:          System/Libraries
 
 License:        GPLv3+
+URL:            https://github.com/dkosmari/gtk-sfml
 Source0:        @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 
+
 %description
-This is the library needed to run programs linked to %{name}.
+This is the library needed to run programs that use %{name}.
+
 
 BuildRequires:      automake
 BuildRequires:      libtool
@@ -21,33 +22,18 @@ BuildRequires:      pkgconfig(gtkmm-3.0)
 BuildRequires:      gcc-c++
 
 
-
-#############
-## library ##
-#############
-
-%package -n     %{libname}
-Summary:        A set of widgets for integrating SFML into gtkmm3.
-Group:          System/Libraries
-
-%description -n %{libname}
-This is the library needed to run programs linked with %{libname}.
-
-
 ###########
 ## devel ##
 ###########
 
-%package -n     %{devname}
-Summary:        Development package for %{libname}.
+%package        devel
+Summary:        Development package for %{name}.
 Group:          Development/C++
-Provides:       %{devname} = %{version}
-Requires:       %{libname} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
-%description -n %{devname}
-This package provides libraries and headers files for %{name}
-development.
-
+%description devel
+The %{name}-devel package contains libraries and header files for
+developing applications that use %{name}.
 
 
 %prep
@@ -65,13 +51,13 @@ development.
 %{?ldconfig_scriptlets}
 
 
-%files -n %{libname}
+%files
 %license COPYING
 %doc AUTHORS
 %{_libdir}/*.so.*
 
 
-%files -n %{devname}
+%files devel
 %doc README.md
 %doc ChangeLog
 %doc NEWS
