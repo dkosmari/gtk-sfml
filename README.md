@@ -69,12 +69,12 @@ methods:
    event.
  - `void on_update()`: called periodically if the "auto update" flag is set.
 
-Each GTK-SFML widget has an "auto-update" flag, that can be set by the
-`set_auto_update(bool enable)` method. When it's turned on, the `on_update()` method will
-be called periodically, followed by a redraw request (that will invoke `on_render()`). If
-"auto-update" is not set, the `on_update()` method is not called, and the redraw only
-occurs when GTK+ deems it necessary (e.g. the widget got resized.) To render
-animations, you should enable the "auto-update" flag. This flag is disabled by default.
+Each GTK-SFML widget has an "auto-update" flag, that can be controlled by the
+`set_auto_update(bool enable)` method. When it's enabled, the `on_update()` method will be
+called periodically, followed by a redraw request (that will invoke `on_render()`). If
+"auto-update" is disabled, the `on_update()` method is not called, and the redraw only
+occurs when GTK+ deems it necessary (e.g. the widget got resized.) This flag is enabled by
+default.
 
 
 ## Prerequisites
