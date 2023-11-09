@@ -7,8 +7,8 @@ On some systems, this approach allows for higher frame rates than using OpenGL d
 with GTK+ (e.g. GTK+ will cap the OpenGL rendering to 30 fps, while gtk-sfml will perform
 the exact same rendering at 60 fps)
 
-This is done through widgets (`gtksfml::ApplicationWindow`, `gtksfml::DrawingArea` and
-`gtksfml::Window`) that offer an `on_render()` pure virtual method for SFML rendering.
+This is done through widgets that offer an `on_render()` pure virtual method for SFML
+rendering.
 
 
 ## Example
@@ -107,8 +107,10 @@ package.
 A `pkg-config` script, `gtk-sfml.pc` will be installed, which provides the compilation and
 linker flags to use gtk-sfml.
 
+
 ### With Makefiles
- In a Makefile, you would use:
+
+In a Makefile, you would use:
 
 ```Makefile
 CXXFLAGS := $(shell pkg-config --cflags gtk-sfml)
@@ -121,7 +123,7 @@ LIBS := $(shell pkg-config --libs gtk-sfml)
 If using Autoconf/Automake, you can use the `PKG_CHECK_MODULES` macro in `configure.ac`:
 
 ```
-PKG_CHECK_MODULES([GTK_SFML], [gtk-sfml])
+PKG_CHECK_MODULES([GTKSFML], [gtk-sfml])
 ```
 
 Then the `Makefile.am` can use:
@@ -137,7 +139,7 @@ LDADD = $(GTKSFML_LIBS)
 
 The [FindPkgConfig](https://cmake.org/cmake/help/latest/module/FindPkgConfig.html) module can obtain the flags from a pkg-config module:
 
-```
+```cmake
 find_package(PkgConfig)
 
 pkg_check_modules(GTKSFML gtk-sfml)
